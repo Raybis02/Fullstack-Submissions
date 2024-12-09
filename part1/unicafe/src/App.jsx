@@ -1,26 +1,11 @@
 import { useState } from 'react'
 
-const Header = ({ text }) => {
-  return (
-    <h1>{text}</h1>
-  )
-}
+const Header = ({ text }) =>  <h1>{text}</h1>
 
-const Button = ({ handleClick, text }) => {
-  return (
-    <button onClick={handleClick}>
-      {text}
-    </button>
-  )
-}
 
-const Counter = ({ text, amount }) => {
-  return (
-    <div>
-      {text} {amount}
-    </div>
-  )
-}
+const Button = ({ handleClick, text }) => <button onClick={handleClick}>{text}</button>
+
+const Counter = ({ text, amount }) => <div>{text} {amount}</div>
 
 
 const App = () => {
