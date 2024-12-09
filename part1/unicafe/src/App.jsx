@@ -1,34 +1,67 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
 
-function App() {
-  const [count, setCount] = useState(0)
+const Header = ({ text }) => {
+  return (
+    <h1>{text}</h1>
+  )
+}
+
+const Button = ({ handleClick, text }) => {
+  return (
+    <button onClick={handleClick}>
+      {text}
+    </button>
+  )
+}
+
+const Counter = ({ text, amount }) => {
+  return (
+    <div>
+      {text} {amount}
+    </div>
+  )
+}
+
+
+
+const App = () => {
+  // save clicks of each button to its own state
+  const [good, setGood] = useState(0)
+  const [neutral, setNeutral] = useState(0)
+  const [bad, setBad] = useState(0)
+
+  const handleGoodClick = () => {
+    const updatedGood = good + 1
+    console.log('good pressed: ', updatedGood)
+    setGood(updatedGood)
+  }
+  const handleNeutralClick = () => {
+    const updatedNeutral = neutral + 1
+    console.log('neutral pressed: ', updatedNeutral)
+    setNeutral(updatedNeutral)
+  }
+  const handleBadClick = () => {
+    const updatedBad = bad + 1
+    console.log('bad pressed: ', updatedBad)
+    setBad(updatedBad)
+  }
 
   return (
-    <>
+    <div>
       <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        <Header text="give Feedback" />
+        <Button handleClick={handleGoodClick} text='good' />
+        <Button handleClick={handleNeutralClick} text='neutral' />
+        <Button handleClick={handleBadClick} text='bad' />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
+      <div>
+        <Header text='statistics' />
+        <Counter text='good' amount={good} />
+        <Counter text='neutral' amount={neutral} />
+        <Counter text='bad' amount={bad} />
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    </div>
+
   )
 }
 
