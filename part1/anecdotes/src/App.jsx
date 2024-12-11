@@ -2,7 +2,11 @@ import { useState } from 'react'
 
 const Button = ({ text, handleClick }) => <button onClick={handleClick}>{text}</button>
 
-function getRandomInt(max){
+const Display = ({ anecdote, votes }) => <div>{anecdote}<div>has {votes} votes</div></div>
+
+const Header = ({ text }) => <h1>{text}</h1>
+
+function getRandomInt(max) {
   return Math.floor(Math.random() * max)
 }
 
@@ -17,19 +21,34 @@ const App = () => {
     'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients.',
     'The only way to go fast, is to go well.'
   ]
-   
+
+  const [votes, setVotes] = useState(new Uint8Array(anecdotes.length))
+
   const [selected, setSelected] = useState(0)
 
-  const handlClick = () => {
+  const highestVotes = votes.indexOf(Math.max(...votes))
+
+  const handleNext = () => {
     const updatedSelected = getRandomInt(8)
     setSelected(updatedSelected)
   }
+
+  const handleVote = () => {
+    const copy = [...votes]
+    copy[selected] += 1
+    setVotes([...copy])
+  }
+
   return (
     <div>
-      {anecdotes[selected]}
+      <Header text={'Anecdote of the day'} />
+      <Display anecdote={anecdotes[selected]} votes={votes[selected]} />
       <div>
-      <Button handleClick={handlClick} text={'next anecdote'} />
+        <Button handleClick={handleVote} text={'vote'} />
+        <Button handleClick={handleNext} text={'next anecdote'} />
       </div>
+      <Header text={'Anecdote with most votes'} />
+      <Display anecdote={anecdotes[highestVotes]} votes={votes[highestVotes]} />
     </div>
   )
 }
