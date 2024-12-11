@@ -4,7 +4,7 @@ const Header = ({ text }) => <h1>{text}</h1>
 
 const Button = ({ handleClick, text }) => <button onClick={handleClick}>{text}</button>
 
-const Counter = ({ text, amount }) => <div>{text} {amount}</div>
+const StatisticLine = ({ text, value }) => <div>{text} {value}</div>
 
 const Statistics = ({ good, neutral, bad }) => {
   const total = good + bad + neutral
@@ -15,12 +15,12 @@ const Statistics = ({ good, neutral, bad }) => {
     return (
       <div>
         <Header text='statistics' />
-        <Counter text='good' amount={good} />
-        <Counter text='neutral' amount={neutral} />
-        <Counter text='bad' amount={bad} />
-        <Counter text='all' amount={total} />
-        <Counter text='average' amount={average} />
-        <Counter text='positive' amount={positive + ' %'} />
+        <StatisticLine text='good' value={good} />
+        <StatisticLine text='neutral' value={neutral} />
+        <StatisticLine text='bad' value={bad} />
+        <StatisticLine text='all' value={total} />
+        <StatisticLine text='average' value={average} />
+        <StatisticLine text='positive' value={positive + ' %'} />
       </div>
     )
   } else {
