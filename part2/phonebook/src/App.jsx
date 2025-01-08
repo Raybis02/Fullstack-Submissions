@@ -1,5 +1,7 @@
 import { useState } from 'react'
-import Person from './components/Person'
+import Filter from './components/Filter';
+import PersonForm from './components/PersonForm';
+import Persons from './components/Persons';
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -33,7 +35,6 @@ const App = () => {
       setFilterActive(false)
     } else
       setFilterActive(true)
-
   }
 
   const appliedFilter = filterActive
@@ -76,31 +77,14 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <form onSubmit={addPerson}>
-        <div>
-          Filter: <input value={newFilter} onChange={handleFilterChange} />
-        </div>
-        <div>
-          <h2>New Entry</h2>
-        </div>
-        <div>
-          name: <input value={newName} onChange={handleNameChange} />
-        </div>
-        <div>
-          number: <input value={newNumber} onChange={handleNumberChange} />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
-      <h2>Numbers</h2>
+      <Filter filter={newFilter} handler={handleFilterChange} />
       <div>
-        <ul>
-          {appliedFilter.map(person =>
-            <Person person={person} key={person.id} />
-          )}
-        </ul>
+        <h3>New Entry</h3>
       </div>
+      <PersonForm name={newName} number={newNumber} nameHandler={handleNameChange}
+        numberHandler={handleNumberChange} Submit={addPerson} />
+      <h3>Numbers</h3>
+      <Persons persons={appliedFilter} />
     </div>
   )
 }
