@@ -1,4 +1,4 @@
-import Person from './Person';
+import Person from './Person'
 
 const Persons = ({ persons }) => {
     return(
