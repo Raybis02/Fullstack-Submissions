@@ -31,6 +31,20 @@ const App = () => {
       setFilterActive(true)
   }
 
+  const handleDelete = (person) => {
+    if (window.confirm(`Do you really want to delete ${person.name}'s entry`)) {
+      personService
+        .deleteEntry(person.id)
+        .catch(error => {
+          alert(
+            `the entry for ${person.name} has already been deleted`
+          )
+          setPersons(persons.filter(deleted => deleted.id !== person.id))
+        })
+      setPersons(persons.filter(deleted => deleted.id !== person.id))
+    }
+  }
+
   const hook = () => {
     personService
       .getAll()
@@ -54,11 +68,14 @@ const App = () => {
     }
     let duplicateEntry = false
     let duplicateNumber = false
+    let differentNumber = false
     persons.map(person => {
       if (person.name === newName && person.number === newNumber) {
         duplicateEntry = true
       } else if (person.name !== newName && person.number === newNumber) {
         duplicateNumber = true
+      } else if (person.name === newName && person.number !== newNumber) {
+        differentNumber = true
       }
     })
 
@@ -67,6 +84,18 @@ const App = () => {
     } else if (duplicateNumber) {
       const dupe = persons.find((element) => element.number === newNumber)
       window.alert(`The number ${newNumber} is already used by ${dupe.name}`)
+    } else if (differentNumber) {
+      if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one`)) {
+        const entry = persons.find(person => person.name === newName)
+        const updatedEntry = { ...entry, number: newNumber }
+        personService
+          .update(entry.id, updatedEntry)
+          .then(updatedPersons => {
+            setPersons(persons.map(person => person.id === entry.id ? updatedPersons : person))
+            setNewName('')
+            setNewNumber('')
+          })
+      }
     }
 
     else {
@@ -77,7 +106,6 @@ const App = () => {
           setNewName('')
           setNewNumber('')
         })
-
     }
   }
 
@@ -91,7 +119,7 @@ const App = () => {
       <PersonForm name={newName} number={newNumber} nameHandler={handleNameChange}
         numberHandler={handleNumberChange} Submit={addPerson} />
       <h3>Numbers</h3>
-      <Persons persons={appliedFilter} />
+      <Persons persons={appliedFilter} handleDelete={handleDelete} />
     </div>
   )
 }
