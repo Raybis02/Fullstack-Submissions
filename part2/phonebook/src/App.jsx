@@ -7,18 +7,12 @@ import Notification from './components/Notification';
 
 const App = () => {
   const [persons, setPersons] = useState([])
-
   const [newName, setNewName] = useState('')
-
   const [newNumber, setNewNumber] = useState('')
-
   const [newFilter, setNewFilter] = useState('')
-
   const [filterActive, setFilterActive] = useState(false)
-
-  const [lastAdded, setLastAdded] = useState(null)
-
   const [message, setMessage] = useState(null)
+  const [color, setColor] = useState(null)
 
   const handleNameChange = (event) => {
     setNewName(event.target.value)
@@ -47,7 +41,7 @@ const App = () => {
           setPersons(persons.filter(deleted => deleted.id !== person.id))
         })
       setPersons(persons.filter(deleted => deleted.id !== person.id))
-    } 
+    }
   }
 
   const hook = () => {
@@ -99,11 +93,21 @@ const App = () => {
             setPersons(persons.map(person => person.id === entry.id ? updatedPersons : person))
             setNewName('')
             setNewNumber('')
-            setLastAdded(updatedPersons)
-            setMessage('Updated')
+            setMessage(`Updated ${updatedPersons.name}`)
+            setColor('green')
             setTimeout(() => {
-              setLastAdded(null),setMessage(null)
-            },5000)
+              setMessage(null)
+            }, 5000)
+          })
+          .catch(error => {
+            setMessage(`Information of ${updatedEntry.name} has already been removed from the server`)
+            setPersons(persons.filter(deleted => deleted.id !== updatedEntry.id))
+            setColor('red')
+            setNewName('')
+            setNewNumber('')
+            setTimeout(() => {
+              setMessage(null)
+            }, 5000)
           })
       }
     }
@@ -115,11 +119,11 @@ const App = () => {
           setPersons(persons.concat(returnedPerson))
           setNewName('')
           setNewNumber('')
-          setLastAdded(personObject)
-          setMessage('Added')
+          setMessage(`Added ${personObject.name}`)
+          setColor('green')
           setTimeout(() => {
-            setLastAdded(null), setMessage(null)
-          },5000)
+            setMessage(null)
+          }, 5000)
         })
     }
   }
@@ -127,7 +131,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification person={lastAdded} message={message} />
+      <Notification message={message} color={color} />
       <Filter filter={newFilter} handler={handleFilterChange} />
       <div>
         <h3>New Entry</h3>

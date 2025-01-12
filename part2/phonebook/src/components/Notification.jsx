@@ -1,13 +1,23 @@
-const Notification = ({ person, message }) => {
-    if (person === null || message === null) {
-      return null
-    }
-  
-    return (
-      <div className='error'>
-        { `${message} ${person.name}`}
-      </div>
-    )
+const Notification = ({ message, color }) => {
+    const notifStyle = {
+        color: `${color}`,
+        background: 'lightgrey',
+        fontSize: 20,
+        borderStyle: 'solid',
+        borderRadius: 5,
+        padding: 10,
+        marginBottom: 10
+}
+
+if (message === null) {
+    return null
+}
+
+return (
+    <div className='error' style={notifStyle}>
+        {`${message}`}
+    </div>
+)
   }
 
 export default Notification
