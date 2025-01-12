@@ -93,14 +93,14 @@ const App = () => {
             setPersons(persons.map(person => person.id === entry.id ? updatedPersons : person))
             setNewName('')
             setNewNumber('')
-            setMessage(`Updated ${updatedPersons.name}`)
+            setMessage(`Updated entry for ${updatedPersons.name}`)
             setColor('green')
             setTimeout(() => {
               setMessage(null)
             }, 5000)
           })
           .catch(error => {
-            setMessage(`Information of ${updatedEntry.name} has already been removed from the server`)
+            setMessage(`Entry for ${updatedEntry.name} has already been removed from the server`)
             setPersons(persons.filter(deleted => deleted.id !== updatedEntry.id))
             setColor('red')
             setNewName('')
@@ -119,7 +119,7 @@ const App = () => {
           setPersons(persons.concat(returnedPerson))
           setNewName('')
           setNewNumber('')
-          setMessage(`Added ${personObject.name}`)
+          setMessage(`Added entry for ${personObject.name}`)
           setColor('green')
           setTimeout(() => {
             setMessage(null)
