@@ -3,6 +3,7 @@ import Filter from './components/Filter';
 import PersonForm from './components/PersonForm';
 import Persons from './components/Persons';
 import personService from './services/persons'
+import Notification from './components/Notification';
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -14,6 +15,10 @@ const App = () => {
   const [newFilter, setNewFilter] = useState('')
 
   const [filterActive, setFilterActive] = useState(false)
+
+  const [lastAdded, setLastAdded] = useState(null)
+
+  const [message, setMessage] = useState(null)
 
   const handleNameChange = (event) => {
     setNewName(event.target.value)
@@ -42,7 +47,7 @@ const App = () => {
           setPersons(persons.filter(deleted => deleted.id !== person.id))
         })
       setPersons(persons.filter(deleted => deleted.id !== person.id))
-    }
+    } 
   }
 
   const hook = () => {
@@ -94,6 +99,11 @@ const App = () => {
             setPersons(persons.map(person => person.id === entry.id ? updatedPersons : person))
             setNewName('')
             setNewNumber('')
+            setLastAdded(updatedPersons)
+            setMessage('Updated')
+            setTimeout(() => {
+              setLastAdded(null),setMessage(null)
+            },5000)
           })
       }
     }
@@ -105,6 +115,11 @@ const App = () => {
           setPersons(persons.concat(returnedPerson))
           setNewName('')
           setNewNumber('')
+          setLastAdded(personObject)
+          setMessage('Added')
+          setTimeout(() => {
+            setLastAdded(null), setMessage(null)
+          },5000)
         })
     }
   }
@@ -112,6 +127,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification person={lastAdded} message={message} />
       <Filter filter={newFilter} handler={handleFilterChange} />
       <div>
         <h3>New Entry</h3>
