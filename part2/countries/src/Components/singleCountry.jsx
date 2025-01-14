@@ -1,4 +1,5 @@
 import Language from './Language';
+import Weather from './Weather'
 
 const SingleCountry = ({ country }) =>{
     return(
@@ -21,6 +22,7 @@ const SingleCountry = ({ country }) =>{
             <div>
                 <img src={country.flags.png} alt={country.flags.alt} />
             </div>
+                <Weather country={country} />
         </div>
     )
 }
