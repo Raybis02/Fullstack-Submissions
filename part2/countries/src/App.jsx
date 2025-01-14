@@ -20,7 +20,7 @@ function App() {
     )))
   }
 
-  const final = search.length === 0 ? allCountries : filteredCountries
+  const final = search.length !== 0 ? filteredCountries : allCountries
 
   const getAllCountries = () => {
     if (allCountries) {
@@ -43,7 +43,7 @@ function App() {
         <Search input={search} handler={handleSearch} />
       </div>
       <div>
-        <Notification countries={final} />
+        <Notification countries={final} buttonHandler={setFilteredCountries} />
       </div>
     </>
   )
