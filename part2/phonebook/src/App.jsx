@@ -35,6 +35,7 @@ const App = () => {
       personService
         .deleteEntry(person.id)
         .catch(error => {
+          console.log(error)
           alert(
             `the entry for ${person.name} has already been deleted`
           )
@@ -100,6 +101,7 @@ const App = () => {
             }, 5000)
           })
           .catch(error => {
+            console.log(error)
             setMessage(`Entry for ${updatedEntry.name} has already been removed from the server`)
             setPersons(persons.filter(deleted => deleted.id !== updatedEntry.id))
             setColor('red')
